@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>World Parkour</title>
+
+    <link rel="stylesheet" href="parkour.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="brand">
+        <div class="logo">⚔️</div>
+
+        <div>
+          <h1>WORLD PARKOUR</h1>
+          <p>Conquer every world.</p>
+        </div>
+      </div>
+
+      <div class="playerInfo">
+        <span id="playerUsername">GUEST</span>
+        <button id="authButton">LOGIN</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span>💰</span>
+          <b id="money">0</b>
+        </div>
+
+        <div class="stat">
+          <span>🏆</span>
+          <b id="stage">1</b>
+        </div>
+
+        <div class="stat">
+          <span>❤️</span>
+          <b id="health">100</b>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- AUTH -->
+
+      <section id="authScreen" class="screen">
+        <div class="card authCard">
+          <div class="bigLogo">⚔️</div>
+
+          <h2 id="authTitle">WELCOME BACK</h2>
+
+          <p id="authSubtitle">Login to continue your adventure.</p>
+
+          <div id="usernameGroup" class="inputGroup hidden">
+            <label>USERNAME</label>
+
+            <input
+              id="usernameInput"
+              type="text"
+              maxlength="20"
+              placeholder="DragonSlayer"
+            />
+          </div>
+
+          <div class="inputGroup">
+            <label>EMAIL</label>
+
+            <input id="emailInput" type="email" placeholder="you@example.com" />
+          </div>
+
+          <div class="inputGroup">
+            <label>PASSWORD</label>
+
+            <input id="passwordInput" type="password" placeholder="Password" />
+          </div>
+
+          <button id="authSubmit" class="primaryButton">LOGIN</button>
+
+          <button id="authSwitch" class="linkButton">Create an account</button>
+
+          <p id="authMessage"></p>
+        </div>
+      </section>
+
+      <!-- MENU -->
+
+      <section id="menu" class="screen hidden">
+        <div class="menuTitle">
+          <small>WELCOME TO</small>
+
+          <h2>WORLD PARKOUR</h2>
+
+          <p>Explore three worlds and complete every stage.</p>
+        </div>
+
+        <div class="worldGrid">
+          <button class="worldCard earth" onclick="selectWorld(0)">
+            <div class="worldIcon">🌍</div>
+
+            <strong>EARTH WORLD</strong>
+
+            <small>Stages 1 - 10</small>
+
+            <span id="earthProgress">0 / 10</span>
+          </button>
+
+          <button class="worldCard candy" onclick="selectWorld(1)">
+            <div class="worldIcon">🍬</div>
+
+            <strong>CANDY WORLD</strong>
+
+            <small>Stages 11 - 20</small>
+
+            <span id="candyProgress">LOCKED</span>
+          </button>
+
+          <button class="worldCard cookie" onclick="selectWorld(2)">
+            <div class="worldIcon">🍪</div>
+
+            <strong>COOKIE WORLD</strong>
+
+            <small>Stages 21 - 30</small>
+
+            <span id="cookieProgress">LOCKED</span>
+          </button>
+        </div>
+
+        <div class="menuButtons">
+          <button onclick="openShop()" class="menuButton">🛒 SHOP</button>
+
+          <button onclick="openLocker()" class="menuButton">🧥 LOCKER</button>
+        </div>
+        <div class="createdby">Created by Muaid Almebahi</div>
+
+        <!-- LEADERBOARD -->
+
+        <section class="leaderboardSection">
+          <div class="sectionHeader">
+            <div>
+              <small>GLOBAL PLAYERS</small>
+              <h3>🏆 LEADERBOARD</h3>
+            </div>
+
+            <span class="live">● LIVE</span>
+          </div>
+
+          <div class="leaderboard">
+            <div class="leaderboardHeader">
+              <span>#</span>
+              <span>PLAYER</span>
+              <span>STAGE</span>
+              <span>COINS</span>
+            </div>
+
+            <div id="leaderboardRows">
+              <div class="loading">Loading players...</div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- GAME -->
+
+      <section id="game" class="screen hidden">
+        <div class="gameTop">
+          <button onclick="backToMenu()" class="smallButton">← MENU</button>
+
+          <div>
+            <strong id="worldName"> EARTH WORLD </strong>
+
+            <span>
+              STAGE
+              <b id="gameStage">1 / 10</b>
+            </span>
+          </div>
+
+          <div>
+            ❤️
+            <b id="gameHealth">100</b>
+          </div>
+        </div>
+
+        <div id="gameArea">
+          <div id="world">
+            <div id="background"></div>
+
+            <div id="platforms"></div>
+
+            <div id="hazards"></div>
+
+            <div id="coins"></div>
+
+            <div id="enemies"></div>
+
+            <div id="finish" class="finish">🏁</div>
+
+            <div id="player" class="player">🧙</div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button
+            onmousedown="keys.left = true"
+            onmouseup="keys.left = false"
+            onmouseleave="keys.left = false"
+            ontouchstart="keys.left=true"
+            ontouchend="keys.left=false"
+          >
+            ◀
+          </button>
+
+          <button onclick="jump()">⬆ JUMP</button>
+
+          <button
+            onmousedown="keys.right = true"
+            onmouseup="keys.right = false"
+            onmouseleave="keys.right = false"
+            ontouchstart="keys.right=true"
+            ontouchend="keys.right=false"
+          >
+            ▶
+          </button>
+
+          <button onclick="attack()">⚔ ATTACK</button>
+
+          <button onclick="useHealthPotion()">🧪 HEAL</button>
+        </div>
+
+        <div id="stageMessage" class="stageMessage">Good luck!</div>
+      </section>
+
+      <!-- SHOP -->
+
+      <section id="shop" class="screen hidden">
+        <div class="shopHeader">
+          <button onclick="backToMenu()" class="smallButton">← MENU</button>
+
+          <h2>🛒 SHOP</h2>
+
+          <strong> 💰 <span id="shopMoney">0</span> </strong>
+        </div>
+
+        <div class="shopGrid">
+          <div class="item">
+            <div class="itemIcon">⚡</div>
+
+            <h3>SPEED</h3>
+
+            <p id="speedDescription">Move faster.</p>
+
+            <button onclick="buyUpgrade('speed')">
+              <span id="speedPrice">100</span> 💰
+            </button>
+          </div>
+
+          <div class="item">
+            <div class="itemIcon">❤️</div>
+
+            <h3>MORE HEALTH</h3>
+
+            <p id="healthDescription">Increase maximum health.</p>
+
+            <button onclick="buyUpgrade('health')">
+              <span id="healthPrice">150</span> 💰
+            </button>
+          </div>
+
+          <div class="item">
+            <div class="itemIcon">⚔️</div>
+
+            <h3>DAMAGE</h3>
+
+            <p id="damageDescription">Deal more damage.</p>
+
+            <button onclick="buyUpgrade('damage')">
+              <span id="damagePrice">125</span> 💰
+            </button>
+          </div>
+
+          <div class="item">
+            <div class="itemIcon">🧪</div>
+
+            <h3>HEALTH POTION</h3>
+
+            <p>Restore 50 health during a stage.</p>
+
+            <button onclick="buyPotion()">
+              <span id="potionPrice">75</span> 💰
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOCKER -->
+
+      <section id="locker" class="screen hidden">
+        <div class="shopHeader">
+          <button onclick="backToMenu()" class="smallButton">← MENU</button>
+
+          <h2>🧥 LOCKER</h2>
+
+          <span> Change your character </span>
+        </div>
+
+        <div id="characterGrid" class="characterGrid"></div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase.js"></script>
+
+    <script src="parkour.js"></script>
+  </body>
+</html>
